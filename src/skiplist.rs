@@ -73,4 +73,34 @@ impl SkipList {
             }
         }
     }
+
+    pub fn search(&self, value:i32) -> bool {
+        let mut current: Option<usize> = None;
+
+        for level in (0..=self.max_level).rev() {
+            loop {
+                let next = match current {
+                    None => self.head_forward[level],
+                    Some(idx) => self.nodes[idx].forward[level],
+                };
+
+                match next {
+                    Some(idx) if self.nodes[idx].value < value => {
+                        current = Some(idx);
+                    }
+                    _ => break,
+                }
+            }
+        }
+
+        let final_next = match current {
+            None => self.head_forward[0],
+            Some(idx) => self.nodes[idx].forward[0],
+        };
+
+        match final_next {
+            Some(idx) => self.nodes[idx].value == value,
+            None => false,
+        }
+    }
 }
