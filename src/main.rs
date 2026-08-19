@@ -1,5 +1,6 @@
 mod vector;
 mod brute;
+mod skiplist;
 
 use brute::BruteForceIndex;
 use vector::Vector;
